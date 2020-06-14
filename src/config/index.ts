@@ -17,8 +17,7 @@ const Env = type(
       union([literal('development'), literal('test'), literal('production')]),
       'production',
     ),
-    HOST: fromNullable(string, 'localhost'),
-    PORT: fromNullable(NumberFromString, 3000),
+    APP_URL: fromNullable(string, 'localhost:3000'),
 
     POSTGRES_HOST: fromNullable(string, 'localhost'),
     POSTGRES_PORT: fromNullable(NumberFromString, 5432),
@@ -34,15 +33,13 @@ const env = Env.decode(process.env);
 type TEnv = typeof Env._A;
 
 type TAppConfig = {
-  host: string;
-  port: number;
+  appUrl: string;
   isDevelopment: boolean;
 };
 
 function getAppConfig(env: TEnv): TAppConfig {
   return {
-    host: env.HOST,
-    port: env.PORT,
+    appUrl: env.APP_URL,
     isDevelopment: env.NODE_ENV === 'development',
   };
 }

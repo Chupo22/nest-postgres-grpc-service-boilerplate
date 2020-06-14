@@ -17,10 +17,12 @@
       "@app/*": ["src/*"],
       "@dto": ["src/dto/index"],
       "@libs": ["src/libs/index"],
+      "@types": ["src/types/index"],
       "@config": ["src/config/index"],
       "@entities": ["src/entities/index"],
       "@services": ["src/services/index"],
-      "@repositories": ["src/repositories/index"]
+      "@repositories": ["src/repositories/index"],
+      "@generated/grpc": ["src/types/generated-grpc"]
     }
   },
   "exclude": ["node_modules", "dist"]

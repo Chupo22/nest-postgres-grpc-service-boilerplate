@@ -1,17 +1,20 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, UsePipes } from '@nestjs/common';
 import { FooService } from '@services';
 import { GetFooListRequestDTO, TGetFooListRequestDTO } from '@dto';
 import { IoValidationPipe } from '@libs';
+import { GrpcMethod } from '@nestjs/microservices';
+import { foo as grpc } from '@generated/grpc';
+import { TFooController } from '@types';
 
 @Controller()
-export class AppController {
+export class AppController implements TFooController {
   constructor(private readonly fooService: FooService) {}
 
-  @Get('/get-foo-list')
-  getFooList(
-    @Query(new IoValidationPipe(GetFooListRequestDTO))
+  @GrpcMethod('FooService')
+  @UsePipes(new IoValidationPipe(GetFooListRequestDTO))
+  async getFooList(
     request: TGetFooListRequestDTO,
-  ) {
-    return this.fooService.find(request);
+  ): Promise<grpc.IGetFooListResponse> {
+    return { result: await this.fooService.find(request) };
   }
 }
